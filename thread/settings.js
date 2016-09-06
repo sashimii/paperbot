@@ -1,9 +1,10 @@
 let self;
 
 const axios = require('axios');
+const config = require('config');
 
 
-export default class ThreadSettings {
+module.exports = class ThreadSettings {
   constructor() {
     if (!self) {
       self = this;
@@ -29,7 +30,7 @@ export default class ThreadSettings {
 
   setGreeting(greeting, callback) {
     if(!this.greetingExists) {
-      axios.post(_getThreadSettingsUrl(), {
+      axios.post(this._getThreadSettingsUrl(), {
         'setting_type': 'greeting',
         'greeting': {
           'text': greeting
@@ -47,7 +48,7 @@ export default class ThreadSettings {
 
   setGetStartedButton(menuItemsArray, callback) {
     if(!this.startButtonExists) {
-      axios.post(_getThreadSettingsUrl(), {
+      axios.post(this._getThreadSettingsUrl(), {
         'setting_type': 'call_to_actions',
         'thread_state': 'new_thread',
         'call_to_actions': menuItemsArray
@@ -65,7 +66,7 @@ export default class ThreadSettings {
 
   setPersistentMenu(menuItemsArray, callback) {
     if(!this.persistentMenuIsSet) {
-      axios.post(_getThreadSettingsUrl(), {
+      axios.post(this._getThreadSettingsUrl(), {
         'setting_type': 'call_to_actions',
         'thread_state': 'existing_thread',
         'call_to_actions': menuItemsArray
