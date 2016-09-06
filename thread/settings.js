@@ -55,7 +55,6 @@ module.exports = class ThreadSettings {
       })
       .then(
         (response) => {
-          console.log(response);
           if(response.result == "Successfully added new_thread's CTAs")
           this.startButtonExists = true;
           this._handleCallback(response, callback);
@@ -73,7 +72,6 @@ module.exports = class ThreadSettings {
       })
       .then(
         (response) => {
-          console.log(response);
           if(response.result == "Successfully added new_thread's CTAs")
           this.persistentMenuIsSet = true;
           this._handleCallback(response, callback);
