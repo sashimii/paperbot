@@ -10,15 +10,14 @@
 /* jshint node: true, devel: true */
 'use strict';
 
-const
-  bodyParser = require('body-parser'),
-  config = require('config'),
-  crypto = require('crypto'),
-  express = require('express'),
-  https = require('https'),
-  request = require('request'),
-  axios = require('axios'),
-  ThreadSettingsHandler = require('./thread/settings'),;
+var bodyParser = require('body-parser'),
+    config = require('config'),
+    crypto = require('crypto'),
+    express = require('express'),
+    https = require('https'),
+    request = require('request'),
+    axios = require('axios'),
+    ThreadSettingsHandler = require('./thread/settings');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -33,25 +32,17 @@ app.use(express.static('public'));
  */
 
 // App Secret can be retrieved from the App Dashboard
-const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ?
-  process.env.MESSENGER_APP_SECRET :
-  config.get('appSecret');
+var APP_SECRET = process.env.MESSENGER_APP_SECRET ? process.env.MESSENGER_APP_SECRET : config.get('appSecret');
 
 // Arbitrary value used to validate a webhook
-const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
-  (process.env.MESSENGER_VALIDATION_TOKEN) :
-  config.get('validationToken');
+var VALIDATION_TOKEN = process.env.MESSENGER_VALIDATION_TOKEN ? process.env.MESSENGER_VALIDATION_TOKEN : config.get('validationToken');
 
 // Generate a page access token for your page from the App Dashboard
-const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
-  (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
-  config.get('pageAccessToken');
+var PAGE_ACCESS_TOKEN = process.env.MESSENGER_PAGE_ACCESS_TOKEN ? process.env.MESSENGER_PAGE_ACCESS_TOKEN : config.get('pageAccessToken');
 
 // URL where the app is running (include protocol). Used to point to scripts and
 // assets located at this address.
-const SERVER_URL = (process.env.SERVER_URL) ?
-  (process.env.SERVER_URL) :
-  config.get('serverURL');
+var SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : config.get('serverURL');
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
@@ -63,9 +54,8 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  * setup is the same token used here.
  *
  */
-app.get('/webhook', function(req, res) {
-  if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+app.get('/webhook', function (req, res) {
+  if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === VALIDATION_TOKEN) {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
@@ -73,7 +63,6 @@ app.get('/webhook', function(req, res) {
     res.sendStatus(403);
   }
 });
-
 
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
@@ -89,12 +78,12 @@ app.post('/webhook', function (req, res) {
   if (data.object == 'page') {
     // Iterate over each entry
     // There may be multiple if batched
-    data.entry.forEach(function(pageEntry) {
+    data.entry.forEach(function (pageEntry) {
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
 
       // Iterate over each messaging event
-      pageEntry.messaging.forEach(function(messagingEvent) {
+      pageEntry.messaging.forEach(function (messagingEvent) {
         if (messagingEvent.optin) {
           receivedAuthentication(messagingEvent);
         } else if (messagingEvent.message) {
@@ -126,7 +115,7 @@ app.post('/webhook', function (req, res) {
  * (sendAccountLinking) is pointed to this URL.
  *
  */
-app.get('/authorize', function(req, res) {
+app.get('/authorize', function (req, res) {
   var accountLinkingToken = req.query['account_linking_token'];
   var redirectURI = req.query['redirect_uri'];
 
@@ -164,9 +153,7 @@ function verifyRequestSignature(req, res, buf) {
     var method = elements[0];
     var signatureHash = elements[1];
 
-    var expectedHash = crypto.createHmac('sha1', APP_SECRET)
-                        .update(buf)
-                        .digest('hex');
+    var expectedHash = crypto.createHmac('sha1', APP_SECRET).update(buf).digest('hex');
 
     if (signatureHash != expectedHash) {
       throw new Error("Couldn't validate the request signature.");
@@ -194,9 +181,7 @@ function receivedAuthentication(event) {
   // plugin.
   var passThroughParam = event.optin.ref;
 
-  console.log("Received authentication for user %d and page %d with pass " +
-    "through param '%s' at %d", senderID, recipientID, passThroughParam,
-    timeOfAuth);
+  console.log("Received authentication for user %d and page %d with pass " + "through param '%s' at %d", senderID, recipientID, passThroughParam, timeOfAuth);
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
@@ -223,8 +208,7 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
+  console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
 
   var isEcho = message.is_echo;
@@ -239,13 +223,11 @@ function receivedMessage(event) {
 
   if (isEcho) {
     // Just logging message echoes to console
-    console.log("Received echo for message %s and app %d with metadata %s",
-      messageId, appId, metadata);
+    console.log("Received echo for message %s and app %d with metadata %s", messageId, appId, metadata);
     return;
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload;
-    console.log("Quick reply for message %s with payload %s",
-      messageId, quickReplyPayload);
+    console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
 
     sendTextMessage(senderID, "Quick reply tapped");
     return;
@@ -317,7 +299,6 @@ function receivedMessage(event) {
   }
 }
 
-
 /*
  * Delivery Confirmation Event
  *
@@ -334,15 +315,13 @@ function receivedDeliveryConfirmation(event) {
   var sequenceNumber = delivery.seq;
 
   if (messageIDs) {
-    messageIDs.forEach(function(messageID) {
-      console.log("Received delivery confirmation for message ID: %s",
-        messageID);
+    messageIDs.forEach(function (messageID) {
+      console.log("Received delivery confirmation for message ID: %s", messageID);
     });
   }
 
   console.log("All message before %d were delivered.", watermark);
 }
-
 
 /*
  * Postback Event
@@ -360,8 +339,7 @@ function receivedPostback(event) {
   // button for Structured Messages.
   var payload = event.postback.payload;
 
-  console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback);
+  console.log("Received postback for user %d and page %d with payload '%s' " + "at %d", senderID, recipientID, payload, timeOfPostback);
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
@@ -383,8 +361,7 @@ function receivedMessageRead(event) {
   var watermark = event.read.watermark;
   var sequenceNumber = event.read.seq;
 
-  console.log("Received message read event for watermark %d and sequence " +
-    "number %d", watermark, sequenceNumber);
+  console.log("Received message read event for watermark %d and sequence " + "number %d", watermark, sequenceNumber);
 }
 
 /*
@@ -402,8 +379,7 @@ function receivedAccountLink(event) {
   var status = event.account_linking.status;
   var authCode = event.account_linking.authorization_code;
 
-  console.log("Received account link event with for user %d with status %s " +
-    "and auth code %s ", senderID, status, authCode);
+  console.log("Received account link event with for user %d with status %s " + "and auth code %s ", senderID, status, authCode);
 }
 
 /*
@@ -549,7 +525,7 @@ function sendButtonMessage(recipientId) {
         payload: {
           template_type: "button",
           text: "This is test text",
-          buttons:[{
+          buttons: [{
             type: "web_url",
             url: "https://www.oculus.com/en-us/rift/",
             title: "Open Web URL"
@@ -596,8 +572,8 @@ function sendGenericMessage(recipientId) {
             }, {
               type: "postback",
               title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
+              payload: "Payload for first bubble"
+            }]
           }, {
             title: "touch",
             subtitle: "Your Hands, Now in VR",
@@ -610,7 +586,7 @@ function sendGenericMessage(recipientId) {
             }, {
               type: "postback",
               title: "Call Postback",
-              payload: "Payload for second bubble",
+              payload: "Payload for second bubble"
             }]
           }]
         }
@@ -627,13 +603,13 @@ function sendGenericMessage(recipientId) {
  */
 function sendReceiptMessage(recipientId) {
   // Generate a random receipt ID as the API requires a unique ID
-  var receiptId = "order" + Math.floor(Math.random()*1000);
+  var receiptId = "order" + Math.floor(Math.random() * 1000);
 
   var messageData = {
     recipient: {
       id: recipientId
     },
-    message:{
+    message: {
       attachment: {
         type: "template",
         payload: {
@@ -699,23 +675,19 @@ function sendQuickReply(recipientId) {
     message: {
       text: "What's your favorite movie genre?",
       metadata: "DEVELOPER_DEFINED_METADATA",
-      quick_replies: [
-        {
-          "content_type":"text",
-          "title":"Action",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
-        },
-        {
-          "content_type":"text",
-          "title":"Comedy",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
-        },
-        {
-          "content_type":"text",
-          "title":"Drama",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
-        }
-      ]
+      quick_replies: [{
+        "content_type": "text",
+        "title": "Action",
+        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+      }, {
+        "content_type": "text",
+        "title": "Comedy",
+        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+      }, {
+        "content_type": "text",
+        "title": "Drama",
+        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+      }]
     }
   };
 
@@ -788,7 +760,7 @@ function sendAccountLinking(recipientId) {
         payload: {
           template_type: "button",
           text: "Welcome. Link your account.",
-          buttons:[{
+          buttons: [{
             type: "account_link",
             url: SERVER_URL + "/authorize"
           }]
@@ -818,11 +790,9 @@ function callSendAPI(messageData) {
       var messageId = body.message_id;
 
       if (messageId) {
-        console.log("Successfully sent message with id %s to recipient %s",
-          messageId, recipientId);
+        console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
       } else {
-      console.log("Successfully called Send API for recipient %s",
-        recipientId);
+        console.log("Successfully called Send API for recipient %s", recipientId);
       }
     } else {
       console.error(response.error);
@@ -833,28 +803,24 @@ function callSendAPI(messageData) {
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
-  const threadSettingsHandler = new ThreadSettingsHandler();
+  var threadSettingsHandler = new ThreadSettingsHandler();
   threadSettingsHandler.setGreeting('Hello World!');
-  threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
-  threadSettingsHandler.setPersistentMenu([
-    {
-      "type":"postback",
-      "title":"Help",
-      "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
-    },
-    {
-      "type":"postback",
-      "title":"Start a New Order",
-      "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_START_ORDER"
-    },
-    {
-      "type":"web_url",
-      "title":"View Website",
-      "url":"http://petersapparel.parseapp.com/"
-    }
-  ]);
+  threadSettingsHandler.setGetStartedButton([{ payload: 'Hello Again, World!', title: 'Hi there!' }]);
+  threadSettingsHandler.setPersistentMenu([{
+    "type": "postback",
+    "title": "Help",
+    "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
+  }, {
+    "type": "postback",
+    "title": "Start a New Order",
+    "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_START_ORDER"
+  }, {
+    "type": "web_url",
+    "title": "View Website",
+    "url": "http://petersapparel.parseapp.com/"
+  }]);
 });
 
 module.exports = app;
