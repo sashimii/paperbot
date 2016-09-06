@@ -257,6 +257,8 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText) {
+      case 'testing this':
+        sendTextMessage(senderID, '"' + messageText + '" works!');
       case 'image':
         sendImageMessage(senderID);
         break;
