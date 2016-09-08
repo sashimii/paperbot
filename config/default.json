@@ -1,6 +1,6 @@
 {
-    "appSecret": "",
-    "pageAccessToken": "",
-    "validationToken": "",
-    "serverURL": ""
+    "appSecret": "689bc04a0b55ce4069c2e720da11b7b0",
+    "pageAccessToken": "EAAFDlgI38A4BAKiQMaoOmbtG4ukv1hBdGpy5WV6cjj6VcRe5w26T7TkFCDSaZBzLZCnl5Hi7sVngxDhPRxBsZCZAwML31FShSHRaizoRKGhpPZBZCdrBMQKeNxBIZACEuHem2n4ZBAKjjiZBZBRBZCDGZCgBZBECxfyUpUGJlx4mRoyFHoQZDZD",
+    "validationToken": "wubbalubbadubdub",
+    "serverURL": "https://news-chatbot.herokuapp.com/"
 }
