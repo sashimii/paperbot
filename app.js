@@ -21,9 +21,9 @@ const
   ThreadSettingsHandler = require('./thread/settings'),
   robotFactory = require('./ai/robotFactory');
 
-
-require('dotenv').config();
-console.log(process.env.WIT_CLIENT_TOKEN);
+if(!process.env.WIT_CLIENT_TOKEN) {
+  require('dotenv').config();
+}
 
 const witAccessToken = process.env.WIT_CLIENT_TOKEN;
 
