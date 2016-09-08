@@ -53,8 +53,12 @@ const findOrCreateSession = (fbid) => {
 };
 
 const _send = (request, response) => {
-  const {sessionId, context, entities} = request;
-  const {text, quickreplies} = response;
+  // const {sessionId, context, entities} = request;
+  const sessionId = request.sessionId,
+        context = request.context,
+        entities = request.entities;
+  const text = response.text,
+        quickreplies = response.quickreplies;
   // Our bot has something to say!
   // Let's retrieve the Facebook user whose session belongs to
   const recipientId = sessions[sessionId].fbid;
