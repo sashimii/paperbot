@@ -38,7 +38,6 @@ module.exports = class ThreadSettings {
       })
       .then(
         (response) => {
-          console.log(response);
           this.greetingExists = true;
           this._handleCallback(response, callback);
         }
