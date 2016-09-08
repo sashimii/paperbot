@@ -19,9 +19,67 @@ const
   request = require('request'),
   axios = require('axios'),
   ThreadSettingsHandler = require('./thread/settings'),
-  ai = require('./ai');
+  robotFactory = require('./ai/robotFactory');
+
 
 require('dotenv').config();
+console.log(process.env.WIT_CLIENT_TOKEN);
+
+const witAccessToken = process.env.WIT_CLIENT_TOKEN;
+
+// ----------------------------------------------------------------------------
+// Wit.ai bot specific code
+
+// This will contain all user sessions.
+// Each session has an entry:
+// sessionId -> {fbid: facebookUserId, context: sessionState}
+const sessions = {};
+
+const findOrCreateSession = (fbid) => {
+  let sessionId;
+  // Let's see if we already have a session for the user fbid
+  Object.keys(sessions).forEach(k => {
+    if (sessions[k].fbid === fbid) {
+      // Yep, got it!
+      sessionId = k;
+    }
+  });
+  if (!sessionId) {
+    // No session found for user fbid, let's create a new one
+    sessionId = new Date().toISOString();
+    sessions[sessionId] = {fbid: fbid, context: {}};
+  }
+  return sessionId;
+};
+
+const _send = (request, response) => {
+  const {sessionId, context, entities} = request;
+  const {text, quickreplies} = response;
+  // Our bot has something to say!
+  // Let's retrieve the Facebook user whose session belongs to
+  const recipientId = sessions[sessionId].fbid;
+  if (recipientId) {
+    // Yay, we found our recipient!
+    // Let's forward our bot response to her.
+    // We return a promise to let our bot know when we're done sending
+    return sendTextMessage(recipientId, text)
+    .then(() => null)
+    .catch((err) => {
+      console.error(
+        'Oops! An error occurred while forwarding the response to',
+        recipientId,
+        ':',
+        err.stack || err
+      );
+    });
+  } else {
+    console.error('Oops! Couldn\'t find user for session:', sessionId);
+    // Giving the wheel back to our bot
+    return Promise.resolve()
+  }
+}
+
+const ai = robotFactory(witAccessToken, _send, require('./ai/actions'));
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -315,11 +373,19 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, messageText);
+        aiResponse(senderID, messageText);
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
+}
+
+function aiResponse(recipientId, messageText) {
+  const sessionId = findOrCreateSession(recipientId);
+  ai.runActions(sessionId, messageText, {})
+    .then((data) => {
+      console.log('***User has received message!***', data)
+    });
 }
 
 
