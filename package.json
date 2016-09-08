@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Get started example for Messenger Platform",
   "main": "app.js",
+  "engines": {
+    "node": "6.3.0"
+  },
   "scripts": {
     "start": "node --use_strict --harmony app.js",
     "lint": "jshint --exclude node_modules .",
