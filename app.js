@@ -18,7 +18,10 @@ const
   https = require('https'),
   request = require('request'),
   axios = require('axios'),
-  ThreadSettingsHandler = require('./thread/settings');
+  ThreadSettingsHandler = require('./thread/settings'),
+  ai = require('./ai');
+
+require('dotenv').config();
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
