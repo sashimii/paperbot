@@ -66,7 +66,9 @@ module.exports = class ThreadSettings {
   }
 
   setPersistentMenu(menuItemsArray, callback) {
+    console.log('setPersistentMenu has been called');
     if(!this.persistentMenuIsSet) {
+      console.log('persistent menu is not set');
       axios.post(this._getThreadSettingsUrl(), {
         'setting_type': 'call_to_actions',
         'thread_state': 'existing_thread',
@@ -80,7 +82,10 @@ module.exports = class ThreadSettings {
           //   this._handleCallback(response, callback);
           // }
         }
-      );
+      )
+      .catch((error) => {
+        console.log(error);
+      });
     }
   }
 

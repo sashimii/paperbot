@@ -911,9 +911,9 @@ app.listen(app.get('port'), function() {
   threadSettingsHandler.setGreeting('Hello World!');
   threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
   data.getNavigation().then((navigation) => {
-    console.log(navigation);
     threadSettingsHandler.setPersistentMenu(navigation);
   });
+
   // threadSettingsHandler.setPersistentMenu([
   //   {
   //     "type":"postback",
