@@ -69,8 +69,8 @@ const _send = (request, response) => {
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
     sendTextMessage(recipientId, text);
-    // Giving the wheel back to our bot
-    return Promise.resolve()
+    // // Giving the wheel back to our bot
+    // return Promise.resolve()
   } else {
     console.error('Oops! Couldn\'t find user for session:', sessionId);
     // Giving the wheel back to our bot
