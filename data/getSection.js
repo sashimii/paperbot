@@ -10,7 +10,20 @@ module.exports = function getSection(section) {
     .then((response) => {
       let data = response.data;
       let articles = data.items[0].assets;
-      let elements = articles.map((article) => {
+      let elements = articles.map((article, index) => {
+        if(index === 5) {
+          return {
+            title: 'How to pack like a pro for your next business trip',
+            subtitle: 'Partner Content',
+            item_url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
+            image_url: theStarUri + '/content/dam/thestar/static_images/sponsoredsections/betterbusinesstravel/STAR_Mar07_VIA_Pack_Lightly_v2.jpg',
+            buttons: [{
+              type: "web_url",
+              url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
+              title: "Read"
+            }],
+          };
+        }
         return {
           title: article.headline,
           subtitle: article.abstract,
