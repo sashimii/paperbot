@@ -17,7 +17,3 @@ module.exports = function getNavigation() {
     });
   });
 }
-
-getNavigation().then((data) => {
-  console.log('hello', data);
-})
