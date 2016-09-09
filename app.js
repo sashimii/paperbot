@@ -437,7 +437,10 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  data.getSection().then((sectionItems) => {
+    send(sectionItems).to(senderID);
+  })
+  // sendTextMessage(senderID, "Postback called");
 }
 
 /*
