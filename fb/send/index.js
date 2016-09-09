@@ -7,8 +7,16 @@ module.exports = function send(content) {
         recipient: {
           id: recipientId
         },
-        message: content
+        message: {
+          attachment: {
+            type: "image",
+            payload: {
+              url: content
+            }
+          }
+        }
       };
+      console.log(message);
       callSendAPI(message);
     }
   }
