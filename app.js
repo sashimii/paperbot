@@ -19,7 +19,8 @@ const
   request = require('request'),
   axios = require('axios'),
   ThreadSettingsHandler = require('./thread/settings'),
-  robotFactory = require('./ai/robotFactory');
+  robotFactory = require('./ai/robotFactory'),
+  send = require('./fb/send');
 
 if(!process.env.WIT_CLIENT_TOKEN) {
   require('dotenv').config();
@@ -325,7 +326,7 @@ function receivedMessage(event) {
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');
       case 'image':
-        sendImageMessage(senderID);
+        send(SERVER_URL + "/assets/rift.png").to(senderID);
         break;
 
       case 'gif':
