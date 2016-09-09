@@ -16,7 +16,6 @@ module.exports = function send(content) {
           }
         }
       };
-      console.log(JSON.stringify(message));
       callSendAPI(message);
     }
   }
