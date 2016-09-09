@@ -54,11 +54,11 @@ module.exports = class ThreadSettings {
       })
       .then(
         (response) => {
-          console.log('Does Start Button Exist?', response.result);
-          if(response.result == "Successfully added new_thread's CTAs") {
-            this.startButtonExists = true;
-            this._handleCallback(response, callback);
-          }
+          console.log('Does Start Button Exist?', response.data);
+          // if(response.result == "Successfully added new_thread's CTAs") {
+          //   this.startButtonExists = true;
+          //   this._handleCallback(response, callback);
+          // }
 
         }
       );
@@ -74,11 +74,11 @@ module.exports = class ThreadSettings {
       })
       .then(
         (response) => {
-          console.log('Does persistent menu exist?', response.result);
-          if(response.result == "Successfully added new_thread's CTAs") {
-            this.persistentMenuIsSet = true;
-            this._handleCallback(response, callback);
-          }
+          console.log('Does persistent menu exist?', response.data);
+          // if(response.result == "Successfully added new_thread's CTAs") {
+          //   this.persistentMenuIsSet = true;
+          //   this._handleCallback(response, callback);
+          // }
         }
       );
     }
