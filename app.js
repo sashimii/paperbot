@@ -386,9 +386,11 @@ function receivedMessage(event) {
 
 function aiResponse(recipientId, messageText) {
   const sessionId = findOrCreateSession(recipientId);
+  sendTypingOn(recipientId);
   ai.runActions(sessionId, messageText, {})
     .then((data) => {
       console.log('***User has received message!***', data)
+      sendTypingOff(recipientId);
     });
 }
 
