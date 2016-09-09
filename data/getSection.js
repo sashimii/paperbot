@@ -4,8 +4,7 @@ const theStarUri = 'https://www.thestar.com';
 const apiFeed = '/api/feed';
 const apiEndpoint = theStarUri + apiFeed;
 
-// module.exports =
-function getSection(section) {
+module.exports = function getSection(section) {
 
   return axios.get(apiEndpoint + section) // TODO: Abstract away the domains, paths, & URLs
     .then((response) => {
@@ -45,6 +44,6 @@ function getSection(section) {
 
 }
 
-getSection('/news').then((message) => {
-  console.log('message', message);
-})
+// getSection('/news').then((message) => {
+//   console.log('message', message);
+// })
