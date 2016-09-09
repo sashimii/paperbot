@@ -4,7 +4,8 @@ const theStarUri = 'https://www.thestar.com';
 const apiFeed = '/api/feed';
 const apiEndpoint = theStarUri + apiFeed;
 
-module.exports = function getSection(section) {
+// module.exports =
+function getSection(section) {
 
   return axios.get(apiEndpoint + section) // TODO: Abstract away the domains, paths, & URLs
     .then((response) => {
@@ -29,10 +30,12 @@ module.exports = function getSection(section) {
           type: "template",
           payload: {
             template_type: "generic",
-            elements: elements
+            elements: elements.slice(0,10) // 10 Element Limit
           }
         }
       };
+
+      console.log(JSON.stringify(message));
 
       return new Promise((resolve, reject) => {
         return resolve(message);
@@ -41,3 +44,7 @@ module.exports = function getSection(section) {
     });
 
 }
+
+getSection('/news').then((message) => {
+  console.log('message', message);
+})
