@@ -20,7 +20,8 @@ const
   axios = require('axios'),
   ThreadSettingsHandler = require('./thread/settings'),
   robotFactory = require('./ai/robotFactory'),
-  send = require('./fb/send');
+  send = require('./fb/send'),
+  data = require('./data');
 
 if(!process.env.WIT_CLIENT_TOKEN) {
   require('dotenv').config();
@@ -68,15 +69,8 @@ const _send = (request, response) => {
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
     sendTextMessage(recipientId, text);
-    // .then(() => null)
-    // .catch((err) => {
-    //   console.error(
-    //     'Oops! An error occurred while forwarding the response to',
-    //     recipientId,
-    //     ':',
-    //     err.stack || err
-    //   );
-    // });
+    // Giving the wheel back to our bot
+    return Promise.resolve()
   } else {
     console.error('Oops! Couldn\'t find user for session:', sessionId);
     // Giving the wheel back to our bot
@@ -916,23 +910,26 @@ app.listen(app.get('port'), function() {
   const threadSettingsHandler = new ThreadSettingsHandler();
   threadSettingsHandler.setGreeting('Hello World!');
   threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
-  threadSettingsHandler.setPersistentMenu([
-    {
-      "type":"postback",
-      "title":"Help",
-      "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
-    },
-    {
-      "type":"postback",
-      "title":"Start a New Order",
-      "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_START_ORDER"
-    },
-    {
-      "type":"web_url",
-      "title":"View Website",
-      "url":"http://petersapparel.parseapp.com/"
-    }
-  ]);
+  data.getNavigation().then((navigation) => {
+    threadSettingsHandler.setPersistentMenu(navigation);
+  });
+  // threadSettingsHandler.setPersistentMenu([
+  //   {
+  //     "type":"postback",
+  //     "title":"Help",
+  //     "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
+  //   },
+  //   {
+  //     "type":"postback",
+  //     "title":"Start a New Order",
+  //     "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_START_ORDER"
+  //   },
+  //   {
+  //     "type":"web_url",
+  //     "title":"View Website",
+  //     "url":"http://petersapparel.parseapp.com/"
+  //   }
+  // ]);
 });
 
 module.exports = app;
