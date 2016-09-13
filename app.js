@@ -146,6 +146,11 @@ app.post('/webhook', function (req, res) {
   var data = req.body;
   console.log('***webhook data***', JSON.stringify(data));
 
+  /* Ideal State of affairs:
+     let handleMessage = receive(data).then((event) => { return handleMsgPromise(event) });
+     handleMessage().then((stuff) => { send(stuff).to(user)});
+  */
+
   // Make sure this is a page subscription
   if (data.object == 'page') {
     // Iterate over each entry
