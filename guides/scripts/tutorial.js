@@ -10,13 +10,16 @@ let tutorial = {
   timeline: [
     {
       introduction: (userId) => {
-         send(msg.text('Hi, developer friend!')).to(userId);
+         send(msg.text('Hi developer,')).to(userId);
+         send(msg.text('I\'m Starbot. Hopefully I\'ll be making your life a tad bit easier.')).to(userId);
+         send(msg.text('Let me talk about the features provided by FB Messenger API!')).to(userId);
         //  modeManager.nextState(userId);
       }
     },
     {
       persistentMenu: (userId) => {
         send(msg.text('We will talk about the Persistent Menu Here')).to(userId);
+
       }
     },
     {
