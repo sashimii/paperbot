@@ -94,8 +94,8 @@ module.exports = class GuidedMode {
   constructor() {
     if (!self) {
       self = this;
+      this.users = {};
     }
-    this.users = {};
     return self;
   }
 
