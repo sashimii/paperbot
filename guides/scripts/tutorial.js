@@ -1,8 +1,9 @@
 
-const send = require('./fb/send/');
+const send = require('../../fb/send/');
+const msg = require('../../fb/assemble/')
+const modeManager = require('../GuidedMode');
 
-const msg = require('./fb/assemble/')
-
+let state = '';
 
 let tutorial = {
 
@@ -10,10 +11,13 @@ let tutorial = {
     {
       introduction: (userId) => {
          send(msg.text('Hi, developer friend!')).to(userId);
+         modeManager.nextState(userId);
       }
     },
     {
-      persistentMenu: () => {}
+      persistentMenu: () => {
+        return 'wassup';
+      }
     },
     {
       contentTypes: () => {}
@@ -77,11 +81,14 @@ let tutorial = {
     }
   ]
 
-
-
 };
 
+// console.log(Object.getOwnPropertyNames(tutorial.timeline[0])[0]);
 
-
+//
+// tutorial.timeline.forEach((obj) => {
+//   console.log(obj, state);
+//   console.log(obj[Object.getOwnPropertyNames(obj)[0]]());
+// })
 
 module.exports = tutorial;

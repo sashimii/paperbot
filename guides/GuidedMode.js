@@ -88,6 +88,7 @@ let self;
   1. INTRODUCTION
   2.
 */
+const tutorial = require('./scripts/tutorial');
 
 module.exports = class GuidedMode {
 
@@ -95,6 +96,17 @@ module.exports = class GuidedMode {
     if (!self) {
       self = this;
       this.users = {};
+      this.modes = {
+        tutorial: {
+          run: tutorial,
+          states: () => {
+            let tutorialStates = tutorial.timeline.map((state) => {
+              return Object.getOwnPropertyNames(state)[0];
+            });
+            return tutorialStates;
+          },
+        }
+      }
     }
     return self;
   }
@@ -133,17 +145,26 @@ module.exports = class GuidedMode {
       }
     }
     this.users[userId].state[mode] = newState;
+    this.handleMode(this.getMode(userId), userId);
     console.log('Set User State', this.users[userId].state[mode])
   }
 
-  handleTutorial(userId, payload) {
-    if(this.getTutorialMode(userId)) {
-      let userState = this.getUserState(userId);
-      tutorial[userState](userId);
-    } else {
-       return;
-    }
+  nextState(userId) {
+    const currentState = this.getUserState(user);
+    let timeline = this.modes[this.getMode(userId)].run.timeline;
+    timeline.forEach((obj, index) => {
+      if(Object.hasOwnPropertyNames(obj)[0] === currentState) {
+        if(typeof timeline[index+1] === 'object') {
+          this.setUserState(userId, this.getMode(userId), Object.getOwnPropertyNames(timeline[index+1])[0]);
+        } else {
+          this.setMode('DEFAULT');
+        }
+      }
+    });
   }
 
+  handleMode(userId) {
+    this.modes[this.getMode(userId).toLowerCase()].run.timeline[this.getUserState(userId, mode)](userId);
+  }
 
 }
