@@ -164,7 +164,8 @@ module.exports = class GuidedMode {
   }
 
   handleMode(userId) {
-    this.modes[this.getMode(userId).toLowerCase()].run.timeline[this.getUserState(userId, mode)](userId);
+    // A Monstrosity that MUST be refactored later on
+    this.modes[this.getMode(userId).toLowerCase()].run.timeline[this.getUserState(userId, this.getMode(userId))](userId);
   }
 
 }
