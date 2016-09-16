@@ -10,9 +10,8 @@ let tutorial = {
   timeline: [
     {
       introduction: (userId) => {
-         send(msg.text('Hi developer,')).to(userId);
+         send(msg.text('Hi developer,')).to(userId).then.
          send(msg.text('I\'m Starbot. Hopefully I\'ll be making your life a tad bit easier.')).to(userId);
-         send(msg.text('Let me talk about the features provided by FB Messenger API!')).to(userId);
         //  modeManager.nextState(userId);
       }
     },
