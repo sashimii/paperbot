@@ -307,7 +307,7 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
 
-  if(modeManager.getMode(senderId) === 'TUTORIAL') {
+  if(modeManager.getMode(senderID) === 'TUTORIAL') {
     send(msg.text('Hey buddy, you\'re still in a tutorial')).to(senderID);
   } else {
     if (isEcho) {
