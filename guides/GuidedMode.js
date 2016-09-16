@@ -114,6 +114,14 @@ module.exports = class GuidedMode {
     this.users[userId].state[mode] = newState;
   }
 
+  userIsInMode(userId, mode) {
+    if(typeof this.getMode(userId) !== 'undefined') {
+      return this.getMode(userId) === mode ? true : false;
+    } else {
+      return false;
+    }
+  }
+
   handleTutorial(userId, payload) {
     if(this.getTutorialMode(userId)) {
       let userState = this.getUserState(userId);
