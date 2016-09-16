@@ -104,24 +104,21 @@ module.exports = class GuidedMode {
   }
 
   getMode(userId) {
-
+    if(typeof this.users[userId].mode === 'undefined') {
+      return 'DEFAULT';
+    }
     return this.users[userId].mode;
   }
 
   getUserState(userId, mode) {
+    if(typeof this.users[userId].state[mode] === 'undefined') {
+      return 'DEFAULT';
+    }
     return this.users[userId].state[mode];
   }
 
   setUserState(userId, mode, newState) {
     this.users[userId].state[mode] = newState;
-  }
-
-  userIsInMode(userId, mode) {
-    if(typeof this.getMode(userId) !== 'undefined') {
-      return this.getMode(userId) === mode ? true : false;
-    } else {
-      return false;
-    }
   }
 
   handleTutorial(userId, payload) {
