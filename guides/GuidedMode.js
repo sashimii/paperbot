@@ -95,6 +95,7 @@ module.exports = class GuidedMode {
     if (!self) {
       self = this;
     }
+    this.users = {};
     return self;
   }
 
@@ -103,6 +104,7 @@ module.exports = class GuidedMode {
   }
 
   getMode(userId) {
+
     return this.users[userId].mode;
   }
 
