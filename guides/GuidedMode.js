@@ -138,15 +138,16 @@ module.exports = class GuidedMode {
   }
 
   setUserState(userId, mode, newState) {
-    if(typeof this.users[userId] === 'undefined') {
+    if (typeof this.users[userId] === 'undefined') {
       this.users[userId] = {};
+      this.users[userId].state = {};
+      this.users[userId].state[mode] = newState;
       console.log('USER ID', this.users[userId]);
-      if(typeof this.users[userId].state === 'undefined') {
-        this.users[userId].state = {};
-        console.log('USER STATE', this.users[userId].state);
-        this.users[userId].state[mode] = newState;
-        console.log('USER STATE FOR MODE', this.users[userId].state[mode]);
-      }
+    } else if (typeof this.users[userId].state === 'undefined') {
+      this.users[userId].state = {};
+      console.log('USER STATE', this.users[userId].state);
+      this.users[userId].state[mode] = newState;
+      console.log('USER STATE FOR MODE', this.users[userId].state[mode]);
     } else {
       this.users[userId].state[mode] = newState;
       console.log('SET USER NOT WORKING?', this.users[userId].state[mode]);

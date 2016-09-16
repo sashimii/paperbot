@@ -332,10 +332,11 @@ function receivedMessage(event) {
       switch (messageText) {
 
         case 'TUTORIAL':
+          send(msg.text('Welcome to the tutorial!')).to(senderID);
           modeManager.setMode(senderID, 'TUTORIAL');
           modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
           modeManager.handleMode(senderID);
-          send(msg.text('Welcome to the tutorial!')).to(senderID);
+
           break;
         case 'testing this':
           sendTextMessage(senderID, '"' + messageText + '" works!');
