@@ -158,7 +158,7 @@ module.exports = class GuidedMode {
   nextState(userId) {
 
     console.log('nextState() called');
-    const currentState = this.getUserState(userId);
+    const currentState = this.getUserState(userId, this.getMode(userId));
     let timeline = this.modes[this.getMode(userId).toLowerCase()].run.timeline;
     timeline.forEach((obj, index) => {
       console.log('Cycled State', Object.getOwnPropertyNames(obj)[0])
