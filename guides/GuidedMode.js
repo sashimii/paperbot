@@ -158,7 +158,7 @@ module.exports = class GuidedMode {
   nextState(userId) {
 
     console.log('nextState() called');
-    const currentState = this.getUserState(user);
+    const currentState = this.getUserState(userId);
     let timeline = this.modes[this.getMode(userId)].run.timeline;
     timeline.forEach((obj, index) => {
       if(Object.hasOwnPropertyNames(obj)[0] === currentState) {
