@@ -308,7 +308,7 @@ function receivedMessage(event) {
   var quickReply = message.quick_reply;
 
   if(modeManager.getMode(senderID) === 'TUTORIAL') {
-    send(msg.text('Hey buddy, you\'re still in a tutorial')).to(senderID);
+    modeManager.handleMode(senderID);
   } else {
     if (isEcho) {
       // Just logging message echoes to console
