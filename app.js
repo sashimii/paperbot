@@ -309,6 +309,7 @@ function receivedMessage(event) {
 
   if(modeManager.getMode(senderID) === 'TUTORIAL') {
     modeManager.handleMode(senderID);
+    return;
   } else {
     if (isEcho) {
       // Just logging message echoes to console
@@ -332,11 +333,8 @@ function receivedMessage(event) {
       switch (messageText) {
 
         case 'TUTORIAL':
-          send(msg.text('Welcome to the tutorial!')).to(senderID);
           modeManager.setMode(senderID, 'TUTORIAL');
           modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
-          modeManager.handleMode(senderID);
-
           break;
         case 'testing this':
           sendTextMessage(senderID, '"' + messageText + '" works!');
