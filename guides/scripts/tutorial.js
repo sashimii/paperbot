@@ -10,8 +10,14 @@ let tutorial = {
   timeline: [
     {
       introduction: (userId) => {
-         send(msg.text('Hi developer,')).to(userId).then.
-         send(msg.text('I\'m Starbot. Hopefully I\'ll be making your life a tad bit easier.')).to(userId);
+         const introPromise = send(msg.text('Hi developer,')).to(userId).then(()=>{
+           return send(msg.text('I\'m Starbot. Hopefully I\'ll be making your life a tad bit easier.')).to(userId).then(() => {
+             return send(msg.text('Lets start with Persistent Menus.')).to(userId);
+           });
+         });
+         introPromise.then(() => {
+           console.log('Promises Called');
+         })
         //  modeManager.nextState(userId);
       }
     },
