@@ -149,6 +149,7 @@ module.exports = class GuidedMode {
       }
     } else {
       this.users[userId].state[mode] = newState;
+      console.log('SET USER NOT WORKING?', this.users[userId].state[mode]);
     }
     console.log('Set User State', this.users[userId].state[mode])
   }
