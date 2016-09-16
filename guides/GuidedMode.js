@@ -168,7 +168,9 @@ module.exports = class GuidedMode {
     // A Monstrosity that MUST be refactored later on
     const timeline = this.modes[this.getMode(userId).toLowerCase()].run.timeline;
     timeline.forEach((obj) => {
-      if(Object.getOwnPropertyNames(obj)[0] === this.getUserState(userId, this.getMode(userId))) {
+      const funcName = Object.getOwnPropertyNames(obj)[0];
+      if(funcName === this.getUserState(userId, this.getMode(userId))) {
+        console.log(funcName);
         obj[this.getUserState(userId, this.getMode(userId))](userId);
       }
     });
