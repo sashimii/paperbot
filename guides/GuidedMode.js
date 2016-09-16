@@ -102,19 +102,24 @@ module.exports = class GuidedMode {
   setMode(userId, modeSetting) {
     this.users[userId] = {};
     this.users[userId].mode = modeSetting;
+    console.log('Set User Mode', this.users[userId].mode)
   }
 
   getMode(userId) {
     if(typeof this.users[userId] === 'undefined' || typeof this.users[userId].mode === 'undefined') {
+      console.log('DEFAULT MODE');
       return 'DEFAULT';
     }
+    console.log('Mode:', this.users[userId].mode);
     return this.users[userId].mode;
   }
 
   getUserState(userId, mode) {
     if(typeof this.users[userId] === 'undefined' || typeof this.users[userId].state === 'undefined' || typeof this.users[userId].state[mode] === 'undefined') {
+      console.log('DEFAULT USER STATE');
       return 'DEFAULT';
     }
+    console.log('State:', this.users[userId].state[mode]);
     return this.users[userId].state[mode];
   }
 
@@ -122,6 +127,7 @@ module.exports = class GuidedMode {
     this.users[userId] = {};
     this.users[userId].state = {};
     this.users[userId].state[mode] = newState;
+    console.log('Set User State', this.users[userId].state[mode])
   }
 
   handleTutorial(userId, payload) {
