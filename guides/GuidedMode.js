@@ -100,6 +100,7 @@ module.exports = class GuidedMode {
   }
 
   setMode(userId, modeSetting) {
+    this.users[userId] = {};
     this.users[userId].mode = modeSetting;
   }
 
@@ -118,6 +119,8 @@ module.exports = class GuidedMode {
   }
 
   setUserState(userId, mode, newState) {
+    this.users[userId] = {};
+    this.users[userId].state = {};
     this.users[userId].state[mode] = newState;
   }
 
