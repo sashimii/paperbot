@@ -92,3 +92,5 @@ let tutorial = {
 // })
 
 module.exports = tutorial;
+
+// console.log(modeManager.setMode);
