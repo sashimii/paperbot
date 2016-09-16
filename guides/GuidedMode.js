@@ -145,7 +145,6 @@ module.exports = class GuidedMode {
       }
     }
     this.users[userId].state[mode] = newState;
-    this.handleMode(this.getMode(userId), userId);
     console.log('Set User State', this.users[userId].state[mode])
   }
 
