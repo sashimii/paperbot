@@ -21,7 +21,11 @@ const
   ThreadSettingsHandler = require('./thread/settings'),
   robotFactory = require('./ai/robotFactory'),
   send = require('./fb/send'),
-  data = require('./data');
+  data = require('./data'),
+  msg = require('./fb/assemble');
+
+const GuidedMode = require('./guides/GuidedMode');
+const modeManager = new GuidedMode();
 
 if(!process.env.WIT_CLIENT_TOKEN) {
   require('dotenv').config();
@@ -145,6 +149,11 @@ app.get('/webhook', function(req, res) {
 app.post('/webhook', function (req, res) {
   var data = req.body;
   console.log('***webhook data***', JSON.stringify(data));
+
+  /* Ideal State of affairs:
+     let handleMessage = receive(data).then((event) => { return handleMsgPromise(event) });
+     handleMessage().then((stuff) => { send(stuff).to(user)});
+  */
 
   // Make sure this is a page subscription
   if (data.object == 'page') {
@@ -298,85 +307,94 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
 
-  if (isEcho) {
-    // Just logging message echoes to console
-    console.log("Received echo for message %s and app %d with metadata %s",
-      messageId, appId, metadata);
-    return;
-  } else if (quickReply) {
-    var quickReplyPayload = quickReply.payload;
-    console.log("Quick reply for message %s with payload %s",
-      messageId, quickReplyPayload);
+  if(modeManager.getMode(userId) === 'TUTORIAL') {
+    send(msg.text('Hey buddy, you\'re still in a tutorial')).to(senderID);
+  } else {
+    if (isEcho) {
+      // Just logging message echoes to console
+      console.log("Received echo for message %s and app %d with metadata %s",
+        messageId, appId, metadata);
+      return;
+    } else if (quickReply) {
+      var quickReplyPayload = quickReply.payload;
+      console.log("Quick reply for message %s with payload %s",
+        messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
-    return;
-  }
-
-  if (messageText) {
-
-    // If we receive a text message, check to see if it matches any special
-    // keywords and send back the corresponding example. Otherwise, just echo
-    // the text we received.
-    switch (messageText) {
-      case 'testing this':
-        sendTextMessage(senderID, '"' + messageText + '" works!');
-      case 'image':
-        send(SERVER_URL + "/assets/rift.png").to(senderID);
-        break;
-
-      case 'gif':
-        sendGifMessage(senderID);
-        break;
-
-      case 'audio':
-        sendAudioMessage(senderID);
-        break;
-
-      case 'video':
-        sendVideoMessage(senderID);
-        break;
-
-      case 'file':
-        sendFileMessage(senderID);
-        break;
-
-      case 'button':
-        sendButtonMessage(senderID);
-        break;
-
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      case 'receipt':
-        sendReceiptMessage(senderID);
-        break;
-
-      case 'quick reply':
-        sendQuickReply(senderID);
-        break;
-
-      case 'read receipt':
-        sendReadReceipt(senderID);
-        break;
-
-      case 'typing on':
-        sendTypingOn(senderID);
-        break;
-
-      case 'typing off':
-        sendTypingOff(senderID);
-        break;
-
-      case 'account linking':
-        sendAccountLinking(senderID);
-        break;
-
-      default:
-        aiResponse(senderID, messageText);
+      sendTextMessage(senderID, "Quick reply tapped");
+      return;
     }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+
+    if (messageText) {
+
+      // If we receive a text message, check to see if it matches any special
+      // keywords and send back the corresponding example. Otherwise, just echo
+      // the text we received.
+      switch (messageText) {
+
+        case 'TUTORIAL':
+          modeManager.setMode(senderID, 'TUTORIAL');
+          modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
+          break;
+        case 'testing this':
+          sendTextMessage(senderID, '"' + messageText + '" works!');
+        case 'image':
+          send(SERVER_URL + "/assets/rift.png").to(senderID);
+          break;
+
+        case 'gif':
+          sendGifMessage(senderID);
+          break;
+
+        case 'audio':
+          sendAudioMessage(senderID);
+          break;
+
+        case 'video':
+          sendVideoMessage(senderID);
+          break;
+
+        case 'file':
+          sendFileMessage(senderID);
+          break;
+
+        case 'button':
+          sendButtonMessage(senderID);
+          break;
+
+        case 'generic':
+          sendGenericMessage(senderID);
+          break;
+
+        case 'receipt':
+          sendReceiptMessage(senderID);
+          break;
+
+        case 'quick reply':
+          sendQuickReply(senderID);
+          break;
+
+        case 'read receipt':
+          sendReadReceipt(senderID);
+          break;
+
+        case 'typing on':
+          sendTypingOn(senderID);
+          break;
+
+        case 'typing off':
+          sendTypingOff(senderID);
+          break;
+
+        case 'account linking':
+          sendAccountLinking(senderID);
+          break;
+
+        default:
+          aiResponse(senderID, messageText);
+      }
+    } else if (messageAttachments) {
+      sendTextMessage(senderID, "Message with attachment received");
+    }
   }
 }
 
