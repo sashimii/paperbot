@@ -47,7 +47,7 @@ module.exports = function getSection(section) {
         }
       };
 
-      console.log(JSON.stringify(message));
+      // console.log(JSON.stringify(message));
 
       return new Promise((resolve, reject) => {
         return resolve(message);

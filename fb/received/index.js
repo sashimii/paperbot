@@ -7,10 +7,10 @@ const handle = {
   postback: require('./postback')
 }
 
-module.exports = function received(data) {
+module.exports = function received(dataFromUser) {
 
 
-
+  let handledMessage;
   const _getDataTypeHandler = (dataToHandle) => {
     const data = dataToHandle;
     // Make sure this is a page subscription
@@ -22,7 +22,7 @@ module.exports = function received(data) {
         const timeOfEvent = pageEntry.time;
 
         // Iterate over each messaging event
-        let handledMessage = pageEntry.messaging.map((messagingEvent) => {
+        handledMessage = pageEntry.messaging.map((messagingEvent) => {
           if (messagingEvent.optin) {
             return handle.optIn(messagingEvent);
           } else if (messagingEvent.message) {
