@@ -307,6 +307,28 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
 
+  let opinionPoll = {
+    "text":"If an election was held today, which party would you vote for?",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Liberal",
+        "payload":"POLL_LIBERAL"
+      },
+      {
+        "content_type":"text",
+        "title":"Progressive Conservative",
+        "payload":"POLL_PC"
+      },
+      {
+        "content_type":"text",
+        "title":"NDP",
+        "payload":"POLL_NDP"
+      }
+    ]
+  };
+
+
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s",
@@ -329,10 +351,11 @@ function receivedMessage(event) {
     switch (messageText) {
 
       case 'poll me':
-        send(require('./stories/opinionPoll.json')).to(senderID);
+        send(opinionPoll).to(senderID);
         break;
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');
+        break;
       case 'image':
         send(SERVER_URL + "/assets/rift.png").to(senderID);
         break;
