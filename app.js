@@ -328,9 +328,8 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText) {
 
-      case 'TUTORIAL':
-        modeManager.setMode(senderID, 'TUTORIAL');
-        modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
+      case 'poll me':
+        send(require('./stories/opinionPoll.json')).to(senderID);
         break;
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');

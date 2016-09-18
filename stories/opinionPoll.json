@@ -1,0 +1,20 @@
+{
+  "text":"If an election was held today, which party would you vote for?",
+  "quick_replies":[
+    {
+      "content_type":"text",
+      "title":"Liberal",
+      "payload":"POLL_LIBERAL"
+    },
+    {
+      "content_type":"text",
+      "title":"Progressive Conservative",
+      "payload":"POLL_PC"
+    },
+    {
+      "content_type":"text",
+      "title":"NDP",
+      "payload":"POLL_NDP"
+    }
+  ]
+}
