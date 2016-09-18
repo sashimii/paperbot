@@ -24,9 +24,9 @@ module.exports = function send(content) {
       callSendAPI(message);
       typing('off');
 
-      return new Promise((resolve, reject) => {
-        return resolve()
-      })
+      // return new Promise((resolve, reject) => {
+      //   return resolve()
+      // })
       // return new Promise((resolve, reject) => {
       //   return resolve('sent');
       // })
