@@ -307,96 +307,92 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
 
-  if(modeManager.getMode(senderID) === 'TUTORIAL') {
-    modeManager.handleMode(senderID);
+  if (isEcho) {
+    // Just logging message echoes to console
+    console.log("Received echo for message %s and app %d with metadata %s",
+      messageId, appId, metadata);
     return;
-  } else {
-    if (isEcho) {
-      // Just logging message echoes to console
-      console.log("Received echo for message %s and app %d with metadata %s",
-        messageId, appId, metadata);
-      return;
-    } else if (quickReply) {
-      var quickReplyPayload = quickReply.payload;
-      console.log("Quick reply for message %s with payload %s",
-        messageId, quickReplyPayload);
+  } else if (quickReply) {
+    var quickReplyPayload = quickReply.payload;
+    console.log("Quick reply for message %s with payload %s",
+      messageId, quickReplyPayload);
 
-      sendTextMessage(senderID, "Quick reply tapped");
-      return;
-    }
-
-    if (messageText) {
-
-      // If we receive a text message, check to see if it matches any special
-      // keywords and send back the corresponding example. Otherwise, just echo
-      // the text we received.
-      switch (messageText) {
-
-        case 'TUTORIAL':
-          modeManager.setMode(senderID, 'TUTORIAL');
-          modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
-          break;
-        case 'testing this':
-          sendTextMessage(senderID, '"' + messageText + '" works!');
-        case 'image':
-          send(SERVER_URL + "/assets/rift.png").to(senderID);
-          break;
-
-        case 'gif':
-          sendGifMessage(senderID);
-          break;
-
-        case 'audio':
-          sendAudioMessage(senderID);
-          break;
-
-        case 'video':
-          sendVideoMessage(senderID);
-          break;
-
-        case 'file':
-          sendFileMessage(senderID);
-          break;
-
-        case 'button':
-          sendButtonMessage(senderID);
-          break;
-
-        case 'generic':
-          sendGenericMessage(senderID);
-          break;
-
-        case 'receipt':
-          sendReceiptMessage(senderID);
-          break;
-
-        case 'quick reply':
-          sendQuickReply(senderID);
-          break;
-
-        case 'read receipt':
-          sendReadReceipt(senderID);
-          break;
-
-        case 'typing on':
-          sendTypingOn(senderID);
-          break;
-
-        case 'typing off':
-          sendTypingOff(senderID);
-          break;
-
-        case 'account linking':
-          sendAccountLinking(senderID);
-          break;
-
-        default:
-          aiResponse(senderID, messageText);
-      }
-    } else if (messageAttachments) {
-      sendTextMessage(senderID, "Message with attachment received");
-    }
+    sendTextMessage(senderID, "Quick reply tapped");
+    return;
   }
+
+  if (messageText) {
+
+    // If we receive a text message, check to see if it matches any special
+    // keywords and send back the corresponding example. Otherwise, just echo
+    // the text we received.
+    switch (messageText) {
+
+      case 'TUTORIAL':
+        modeManager.setMode(senderID, 'TUTORIAL');
+        modeManager.setUserState(senderID, 'TUTORIAL', 'introduction');
+        break;
+      case 'testing this':
+        sendTextMessage(senderID, '"' + messageText + '" works!');
+      case 'image':
+        send(SERVER_URL + "/assets/rift.png").to(senderID);
+        break;
+
+      case 'gif':
+        sendGifMessage(senderID);
+        break;
+
+      case 'audio':
+        sendAudioMessage(senderID);
+        break;
+
+      case 'video':
+        sendVideoMessage(senderID);
+        break;
+
+      case 'file':
+        sendFileMessage(senderID);
+        break;
+
+      case 'button':
+        sendButtonMessage(senderID);
+        break;
+
+      case 'generic':
+        sendGenericMessage(senderID);
+        break;
+
+      case 'receipt':
+        sendReceiptMessage(senderID);
+        break;
+
+      case 'quick reply':
+        sendQuickReply(senderID);
+        break;
+
+      case 'read receipt':
+        sendReadReceipt(senderID);
+        break;
+
+      case 'typing on':
+        sendTypingOn(senderID);
+        break;
+
+      case 'typing off':
+        sendTypingOff(senderID);
+        break;
+
+      case 'account linking':
+        sendAccountLinking(senderID);
+        break;
+
+      default:
+        aiResponse(senderID, messageText);
+    }
+  } else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  }
+
 }
 
 function aiResponse(recipientId, messageText) {
