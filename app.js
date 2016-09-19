@@ -309,6 +309,7 @@ function receivedMessage(event) {
 
   let opinionPoll = {
     "text":"If an election was held today, which party would you vote for?",
+    "metadata": "DEVELOPER_DEFINED_METADATA",
     "quick_replies":[
       {
         "content_type":"text",
