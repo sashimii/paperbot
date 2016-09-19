@@ -6,7 +6,7 @@ module.exports = function ask(question, metadata, ...options) {
       return {
         content_type: 'text',
         title: option,
-        payload: 'ASK_' + metadata.toUpperCase() + '_' + option.replace(' ', '_').toUpperCase()
+        payload: 'ASK_' + metadata.toUpperCase() + '_' + option.toUpperCase()
       }
     })
   };

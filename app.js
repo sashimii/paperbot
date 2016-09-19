@@ -502,7 +502,7 @@ function receivedPostback(event) {
     case 'ASK_MAYOR_STATUS_YES':
       send(msg.text('Thanks for letting us know what you think!')).to(senderID);
       break;
-    case 'ASK_US_ELECTIONS_KEEP_ME_UPDATED':
+    case 'ASK_US_ELECTIONS_KEEP ME UPDATED':
       sendTypingOn(senderID);
       data.getSection('/news/world/uselection').then((sectionItems) => {
         send(sectionItems).to(senderID)
