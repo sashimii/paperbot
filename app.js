@@ -499,9 +499,32 @@ function handlePayloads(payload, senderID) {
     {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
     {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
   ];
+
+  let generic = {
+    content: {
+      title: 'Breaking News'
+      subtitle: 'Up-to-the-minute alerts on breaking news in the GTA and around the world.',
+      imgUrl: 'https://www.thestar.com/assets/img/newsletters/breaking.jpg'
+    },
+    buttons: [
+      {
+        "type":"postback",
+        "title":"Sign Me Up",
+        "payload":"SIGN_UP_BN"
+      },
+      {
+        "type":"postback",
+        "title":"No Thanks!",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+      }
+    ]
+  };
   switch (payload) {
     case 'SIGN_UP_MH':
       send(msg.text('Thank you for signing up to our Morning Headlines updates')).to(senderID);
+      break;
+    case 'SIGN_UP_BN':
+      send(msg.text('Thank you for signing up to our Breaking News updates')).to(senderID);
       break;
     case 'NO_SIGN_UP_MH':
       send(msg.ask('No problem. Would you like to learn of our other subscriptions?', 'other_subs', 'Yes', 'No')).to(senderID);
@@ -516,6 +539,9 @@ function handlePayloads(payload, senderID) {
       data.getSection('/news/world/uselection').then((sectionItems) => {
         send(sectionItems).to(senderID)
       });
+      break;
+    case 'BREAKING_NEWS_SUB':
+      send(msg.generic(generic.content, generic.buttons)),to(senderID);
       break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
