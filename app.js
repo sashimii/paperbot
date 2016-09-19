@@ -493,7 +493,7 @@ function receivedPostback(event) {
   // sendTextMessage(senderID, "Postback called");
 }
 
-function handlePayloads(payload, recipientID) {
+function handlePayloads(payload, senderID) {
 
   let buttons = [
     {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
