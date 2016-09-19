@@ -358,7 +358,7 @@ function receivedMessage(event) {
         send(msg.button('Would you like a list of morning headlines? We\'ll message you at 7 AM EST, every day.', {type: 'postback', title: 'Sign Me Up', payload: 'SIGN_UP_MH'}, {type: 'postback', title: 'No Thanks', payload: 'NO_SIGN_UP_MH'})).to(senderID);
         break;
       case 'breaking news cta':
-        send(msg.ask('A bomb just detonated in New York City. Should we keep you updated on this?', 'breaking_news', 'Keep Me Updated', 'I\'ll Pass')).to(senderID);
+        send(msg.ask('The United States election is a hot mess. Should we keep you updated?', 'US_ELECTIONS', 'Keep Me Updated', 'I\'ll Pass')).to(senderID);
         break;
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');
@@ -501,6 +501,12 @@ function receivedPostback(event) {
       break;
     case 'ASK_MAYOR_STATUS_YES':
       send(msg.text('Thanks for letting us know what you think!')).to(senderID);
+      break;
+    case 'ASK_US_ELECTIONS_KEEP_ME_UPDATED':
+      sendTypingOn(senderID);
+      data.getSection('/news/world/uselection').then((sectionItems) => {
+        send(sectionItems).to(senderID)
+      });
       break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
