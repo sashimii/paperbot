@@ -340,7 +340,7 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    handlePayloads(quickReplyPayload, senderID);
     return;
   }
 
@@ -485,11 +485,20 @@ function receivedPostback(event) {
   data.getSection(payload).then((sectionItems) => {
     send(sectionItems).to(senderID);
   })
+
+
+  handlePayloads(payload, senderID);
+
+
+  // sendTextMessage(senderID, "Postback called");
+}
+
+function handlePayloads(payload, recipientID) {
+
   let buttons = [
     {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
     {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
   ];
-
   switch (payload) {
     case 'SIGN_UP_MH':
       send(msg.text('Thank you for signing up to our Morning Headlines updates')).to(senderID);
@@ -512,7 +521,6 @@ function receivedPostback(event) {
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
       break;
   }
-  // sendTextMessage(senderID, "Postback called");
 }
 
 /*
