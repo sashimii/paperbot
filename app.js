@@ -318,7 +318,7 @@ function receivedMessage(event) {
       },
       {
         "content_type":"text",
-        "title":"Progressive Conservative",
+        "title":"PC",
         "payload":"POLL_PC"
       },
       {
