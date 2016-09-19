@@ -13,15 +13,27 @@ module.exports = function getSection(section) {
       let elements = articles.map((article, index) => {
         if(index === 5) {
           return {
-            title: 'How to pack like a pro for your next business trip',
+            title: 'How to pack like a pro for your next business trip, & a special deal, just for you.',
             subtitle: 'Partner Content',
             item_url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
             image_url: theStarUri + '/content/dam/thestar/static_images/sponsoredsections/betterbusinesstravel/STAR_Mar07_VIA_Pack_Lightly_v2.jpg',
-            buttons: [{
-              type: "web_url",
-              url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
-              title: "Read"
-            }],
+            buttons: [
+              {
+                type: "web_url",
+                url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
+                title: "Read"
+              },
+              {
+                type: "web_url",
+                url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
+                title: "Visit Sponsor"
+              },
+              {
+                type: "web_url",
+                url: theStarUri + '/partner_content/betterbusinesstravel/2016/03/07/how-to-pack-like-a-pro-for-your-next-business-trip.html',
+                title: "Claim Deal"
+              }
+            ],
           };
         }
         return {

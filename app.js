@@ -355,7 +355,7 @@ function receivedMessage(event) {
         send(msg.ask('Do you think John Tory is doing a good job as mayor?', 'mayor_status', 'Yes', 'No')).to(senderID);
         break;
       case 'subscription cta':
-        send(msg.button('Would you like a list of morning headlines? We\'ll message you at 7 AM EST, every day.', {type: 'postback', title: 'Sign Me Up', payload: 'SIGN_UP_MH'}, {type: 'postback', title: 'No Thanks', payload: 'NO_SIGN_UP_MH'})).to(senderID);
+        send(msg.button('Would you like a list of morning headlines? We\'ll message you at 7 AM EST, every day.', [{type: 'postback', title: 'Sign Me Up', payload: 'SIGN_UP_MH'}, {type: 'postback', title: 'No Thanks', payload: 'NO_SIGN_UP_MH'}])).to(senderID);
         break;
       case 'breaking news cta':
         send(msg.ask('The United States election is a hot mess. Should we keep you updated?', 'US_ELECTIONS', 'Keep Me Updated', 'I\'ll Pass')).to(senderID);
