@@ -5,8 +5,8 @@ module.exports = function poll(question, metadata, ...options) {
     quick_replies: options.map((option) => {
       return {
         content_type: 'text',
-        title: option.title,
-        payload: option.payload
+        title: option,
+        payload: 'POLL_' + option.toUpperCase()
       }
     })
   };
