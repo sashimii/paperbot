@@ -485,6 +485,10 @@ function receivedPostback(event) {
   data.getSection(payload).then((sectionItems) => {
     send(sectionItems).to(senderID);
   })
+  let buttons = [
+    {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
+    {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
+  ];
 
   switch (payload) {
     case 'SIGN_UP_MH':
@@ -493,11 +497,10 @@ function receivedPostback(event) {
     case 'NO_SIGN_UP_MH':
       send(msg.ask('No problem. Would you like to learn of our other subscriptions?', 'other_subs', 'Yes', 'No')).to(senderID);
     case 'ASK_OTHER_SUBS_YES':
-      let buttons = [
-        {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
-        {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
-      ];
-      send(msg.button('Here is a list of our Subscriptions', buttons)).to(senderID);
+      send(msg.button('Here is a list of our Subscriptions: ', buttons)).to(senderID);
+      break;
+    case 'ASK_MAYOR_STATUS_YES':
+      send(msg.text('Thanks for letting us know what you think!')).to(senderID);
       break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);

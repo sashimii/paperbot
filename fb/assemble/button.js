@@ -1,4 +1,4 @@
-module.exports = function button(buttonText, ...buttons ) {
+module.exports = function button(buttonText, buttons ) {
 
   return {
     attachment: {
