@@ -541,7 +541,7 @@ function handlePayloads(payload, senderID) {
       });
       break;
     case 'BREAKING_NEWS_SUB':
-      send(msg.generic(generic.content, generic.buttons)),to(senderID);
+      send(msg.generic(generic.content, generic.buttons)).to(senderID);
       break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
