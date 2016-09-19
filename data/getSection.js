@@ -41,11 +41,16 @@ module.exports = function getSection(section) {
           subtitle: article.abstract,
           item_url: theStarUri + article.url,
           image_url: theStarUri + article.image.url,
-          buttons: [{
-            type: "web_url",
-            url: theStarUri + article.url,
-            title: "Read"
-          }],
+          buttons: [
+            {
+              type: "web_url",
+              url: theStarUri + article.url,
+              title: "Read"
+            },
+            {
+              "type":"element_share"
+            }
+          ],
         };
       });
 
