@@ -493,10 +493,10 @@ function receivedPostback(event) {
     case 'NO_SIGN_UP_MH':
       send(msg.ask('No problem. Would you like to learn of our other subscriptions?', 'other_subs', 'Yes', 'No')).to(senderID);
     case 'ASK_OTHER_SUBS_YES':
-      let buttons = {
+      let buttons = [
         {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
         {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
-      };
+      ];
       send(msg.button('Here is a list of our Subscriptions', buttons)).to(senderID);
       break;
     default:
