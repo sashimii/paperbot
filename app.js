@@ -502,7 +502,7 @@ function handlePayloads(payload, senderID) {
 
   let generic = {
     content: {
-      title: 'Breaking News'
+      title: 'Breaking News',
       subtitle: 'Up-to-the-minute alerts on breaking news in the GTA and around the world.',
       imgUrl: 'https://www.thestar.com/assets/img/newsletters/breaking.jpg'
     },
