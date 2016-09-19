@@ -352,7 +352,7 @@ function receivedMessage(event) {
     switch (messageText) {
 
       case 'poll me':
-        send(opinionPoll).to(senderID);
+        send(msg.poll('Do you think John Tory is doing a good job as mayor?', 'mayor_status', 'Yes', 'No')).to(senderID);
         break;
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');
