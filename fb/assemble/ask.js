@@ -1,4 +1,4 @@
-module.exports = function poll(question, metadata, ...options) {
+module.exports = function ask(question, metadata, ...options) {
   return {
     text: question,
     metadata: metadata,
@@ -6,7 +6,7 @@ module.exports = function poll(question, metadata, ...options) {
       return {
         content_type: 'text',
         title: option,
-        payload: 'POLL_' + option.toUpperCase()
+        payload: 'ASK_' + metadata.toUpperCase() + '_' + option.toUpperCase()
       }
     })
   };

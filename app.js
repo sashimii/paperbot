@@ -352,7 +352,13 @@ function receivedMessage(event) {
     switch (messageText) {
 
       case 'poll me':
-        send(msg.poll('Do you think John Tory is doing a good job as mayor?', 'mayor_status', 'Yes', 'No')).to(senderID);
+        send(msg.ask('Do you think John Tory is doing a good job as mayor?', 'mayor_status', 'Yes', 'No')).to(senderID);
+        break;
+      case 'subscription cta':
+        send(msg.button('Would you like a list of morning headlines? We\'ll message you at 7 AM EST, every day.', {type: 'postback', title: 'Sign Me Up', payload: 'SIGN_UP_MH'}, {type: 'postback', title: 'No Thanks', payload: 'NO_SIGN_UP_MH'})).to(senderID);
+        break;
+      case 'breaking news cta':
+        send(msg.ask('A bomb just detonated in New York City. Should we keep you updated on this?', 'breaking_news', 'Keep Me Updated', 'I\'ll Pass')).to(senderID);
         break;
       case 'testing this':
         sendTextMessage(senderID, '"' + messageText + '" works!');
@@ -479,6 +485,24 @@ function receivedPostback(event) {
   data.getSection(payload).then((sectionItems) => {
     send(sectionItems).to(senderID);
   })
+
+  switch (payload) {
+    case 'SIGN_UP_MH':
+      send(msg.text('Thank you for signing up to our Morning Headlines updates')).to(senderID);
+      break;
+    case 'NO_SIGN_UP_MH':
+      send(msg.ask('No problem. Would you like to learn of our other subscriptions?', 'other_subs', 'Yes', 'No')).to(senderID);
+    case 'ASK_OTHER_SUBS_YES':
+      let buttons = {
+        {type: 'postback', title: 'Breaking News', payload: 'BREAKING_NEWS_SUB'},
+        {type: 'postback', title: 'Sports', payload: 'SPORTS_SUB'}
+      };
+      send(msg.button('Here is a list of our Subscriptions', buttons)).to(senderID);
+      break;
+    default:
+      send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
+      break;
+  }
   // sendTextMessage(senderID, "Postback called");
 }
 
