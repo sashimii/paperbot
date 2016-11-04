@@ -65,6 +65,8 @@ const _send = (request, response) => {
         entities = request.entities;
   const text = response.text,
         quickreplies = response.quickreplies;
+
+  console.log('*** TEXT LENGTH IS: ', text.length);
   // Our bot has something to say!
   // Let's retrieve the Facebook user whose session belongs to
   const recipientId = sessions[sessionId].fbid;
@@ -73,7 +75,7 @@ const _send = (request, response) => {
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
     if(text > 319) {
-      console.log('*** TEXT LENGTH IS: ', text.length);
+
       let textToSend = text.split('.');
       let newParagraph = '';
       textToSend.forEach((sentence) => {
