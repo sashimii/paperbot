@@ -78,13 +78,17 @@ const _send = (request, response) => {
 
       let textToSend = text.split('.');
       let newParagraph = '';
-      textToSend.forEach((sentence) => {
+      textToSend.forEach((sentence, index) => {
         if((newParagraph + `${sentence}.`).length <= 320) {
           newParagraph += `${sentence}.`;
         } else if ((newParagraph + `${sentence}.`).length > 320) {
           sendTypingOn(recipientId);
           sendTextMessage(recipientId, newParagraph);
+          sendTypingOff(recipientId);
           newParagraph = `${sentence}.`;
+        } else if(index >= textToSend.length -1) {
+          sendTypingOn(recipientId);
+          sendTextMessage(recipientId, newParagraph);
           sendTypingOff(recipientId);
         }
       });
