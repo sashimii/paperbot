@@ -74,7 +74,7 @@ const _send = (request, response) => {
     // Yay, we found our recipient!
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
-    if(text > 319) {
+    if(text.length > 319) {
 
       let textToSend = text.split('.');
       let newParagraph = '';
