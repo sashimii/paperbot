@@ -1054,7 +1054,7 @@ app.listen(app.get('port'), function() {
     {
       "type":"web_url",
       "title":"About QGS",
-      "url":"http://app.qgs.io/"
+      "url":"http://www.qgs.io/"
     }
   ]);
 });
