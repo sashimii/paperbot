@@ -73,6 +73,7 @@ const _send = (request, response) => {
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
     if(text > 319) {
+      console.log('*** TEXT LENGTH IS: ', text.length);
       let textToSend = text.split('.');
       let newParagraph = '';
       textToSend.forEach((sentence) => {
