@@ -72,7 +72,21 @@ const _send = (request, response) => {
     // Yay, we found our recipient!
     // Let's forward our bot response to her.
     // We return a promise to let our bot know when we're done sending
-    sendTextMessage(recipientId, text);
+    if(text > 319) {
+      let textToSend = text.split('.');
+      let newParagraph = '';
+      textToSend.forEach((sentence) => {
+        if((newParagraph + `.${sentence}`).length < 320) {
+          newParagraph += `.${sentence}`;
+        } else {
+          sendTextMessage(recipientId, newParagraph);
+          newParagraph = '';
+        }
+      });
+    } else {
+      sendTextMessage(recipientId, text);
+    }
+
     // // Giving the wheel back to our bot
     // return Promise.resolve()
   } else {
