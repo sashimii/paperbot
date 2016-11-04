@@ -86,7 +86,9 @@ const _send = (request, response) => {
           sendTextMessage(recipientId, newParagraph);
           sendTypingOff(recipientId);
           newParagraph = `${sentence}.`;
-        } else if(index >= textToSend.length -1) {
+        }
+        
+        if(textToSend[index+1] === undefined) {
           sendTypingOn(recipientId);
           sendTextMessage(recipientId, newParagraph);
           sendTypingOff(recipientId);
