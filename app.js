@@ -87,7 +87,7 @@ const _send = (request, response) => {
           sendTypingOff(recipientId);
           newParagraph = `${sentence}.`;
         }
-        
+
         if(textToSend[index+1] === undefined) {
           sendTypingOn(recipientId);
           sendTextMessage(recipientId, newParagraph);
@@ -1044,11 +1044,11 @@ function callSendAPI(messageData) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
   const threadSettingsHandler = new ThreadSettingsHandler();
-  threadSettingsHandler.setGreeting('Hello World!');
+  threadSettingsHandler.setGreeting('Hello, I\'m Geoff! Your personal PoliBot');
   threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
-  data.getNavigation().then((navigation) => {
-    threadSettingsHandler.setPersistentMenu(navigation);
-  });
+  // data.getNavigation().then((navigation) => {
+  //   threadSettingsHandler.setPersistentMenu(navigation);
+  // });
 
   // threadSettingsHandler.setPersistentMenu([
   //   {
