@@ -1050,23 +1050,13 @@ app.listen(app.get('port'), function() {
   //   threadSettingsHandler.setPersistentMenu(navigation);
   // });
 
-  // threadSettingsHandler.setPersistentMenu([
-  //   {
-  //     "type":"postback",
-  //     "title":"Help",
-  //     "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
-  //   },
-  //   {
-  //     "type":"postback",
-  //     "title":"Start a New Order",
-  //     "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_START_ORDER"
-  //   },
-  //   {
-  //     "type":"web_url",
-  //     "title":"View Website",
-  //     "url":"http://petersapparel.parseapp.com/"
-  //   }
-  // ]);
+  threadSettingsHandler.setPersistentMenu([
+    {
+      "type":"web_url",
+      "title":"About QGS",
+      "url":"http://app.qgs.io/"
+    }
+  ]);
 });
 
 module.exports = app;
