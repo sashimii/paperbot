@@ -1019,7 +1019,6 @@ function callSendAPI(messageData) {
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
-
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
@@ -1044,19 +1043,12 @@ function callSendAPI(messageData) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
   const threadSettingsHandler = new ThreadSettingsHandler();
-  threadSettingsHandler.setGreeting('Hello, I\'m Geoff! Your personal PoliBot');
+  threadSettingsHandler.setGreeting('Hello, I\'m Starbot!');
   threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
-  // data.getNavigation().then((navigation) => {
-  //   threadSettingsHandler.setPersistentMenu(navigation);
-  // });
+  data.getNavigation().then((navigation) => {
+    threadSettingsHandler.setPersistentMenu(navigation);
+  });
 
-  threadSettingsHandler.setPersistentMenu([
-    {
-      "type":"web_url",
-      "title":"About QGS",
-      "url":"http://www.qgs.io/"
-    }
-  ]);
 });
 
 module.exports = app;
