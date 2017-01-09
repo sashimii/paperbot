@@ -1095,6 +1095,7 @@ function checkForOnePlus3TSoftGold() {
   }, minute);
 }
 
+checkForOnePlus3TSoftGold()
 
 
 // Start server
