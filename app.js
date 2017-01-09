@@ -1053,7 +1053,7 @@ function checkForOnePlus3TSoftGold() {
 
     const softGoldId = 403;
     const gunmetalId = 399;
-    const phoneToCheck = gunmetalId;
+    const phoneToCheck = softGoldId;
 
     axios.get(`https://oneplus.net/xman/product/info?param={"store":"ca_en","id":409,"ids":["${phoneToCheck}"]}`)
       .then((response) => {
