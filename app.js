@@ -1064,7 +1064,7 @@ setInterval(function () {
         send(opPayload).to(process.env['SUSHIL_FB_ID']);
       } else {
         const dateTime = new Date().toUTCString();
-        const message = `As of ${dateTime}, OP3T is still NOT IN STOCK`
+        const message = `As of ${dateTime}, OP3T SOFT GOLD is still NOT IN STOCK`
         send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
       }
     });
