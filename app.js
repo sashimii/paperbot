@@ -1042,7 +1042,7 @@ var messageSentCount;
 // Send a message every 30 seconds
 setInterval(function () {
 
-  send(msg.text('Testing messages per interval')).to(process.env.['SUSHIL_FB_ID']);
+  send(msg.text('Testing messages per interval')).to(process.env['SUSHIL_FB_ID']);
   messageSentCount++;
 
 },30000);
