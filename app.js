@@ -1038,44 +1038,63 @@ function callSendAPI(messageData) {
   });
 }
 
-var messageSentCount;
-// Send a message every 30 seconds
-setInterval(function () {
+function checkForOnePlus3TSoftGold() {
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const fifteenMins = minute * 15;
+  var timeCount = 0;
+  var fifteenMinuteInterval = 0;
+  const isFifteenMins = () => {
+    return (fifteenMinuteInterval / fifteenMins) === 1 ? true : false;
+  }
+  // Send a message every 30 seconds
+  setInterval(function () {
 
-  axios.get(`https://oneplus.net/xman/product/info?param={"store":"ca_en","id":409,"ids":["403"]}`)
-    .then((response) => {
-      const data = response.data.data;
-      const stock = data.stock;
-      if(stock === 1) {
-        const message = {
-          title: 'OnePlus 3T Soft Gold IN STOCK!',
-          itemUrl: 'https://oneplus.net/ca_en/oneplus-3t',
-          imageUrl: 'http://cdn04.androidauthority.net/wp-content/uploads/2016/11/OnePlus-3T-Soft-Gold-hero.png',
-          subtitle: 'IT IS SOFT & GOLD'
-        };
-        const buttons = [
-          {
-            type: 'web_url',
-            url: 'https://oneplus.net/ca_en/oneplus-3t',
-            title: 'Buy dis phone'
-          }
-        ];
-        const opPayload = msg.generic(message, buttons)
-        send(opPayload).to(process.env['SONIA_FB_ID']);
-        send(opPayload).to(process.env['SUSHIL_FB_ID']);
-      } else if (stock === 0){
-        const dateTime = new Date().toUTCString();
-        const message = `As of ${dateTime}, OP3T SOFT GOLD is still NOT IN STOCK`
-        send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
+    const softGoldId = 403;
+    const gunmetalId = 399;
+    const phoneToCheck = gunmetalId;
+
+    axios.get(`https://oneplus.net/xman/product/info?param={"store":"ca_en","id":409,"ids":["${phoneToCheck}"]}`)
+      .then((response) => {
+        const data = response.data.data.children[phoneToCheck];
+        const stock = data.stock;
+        if(stock === 1) {
+          const message = {
+            title: data.name + ' is IN STOCK!',
+            itemUrl: 'https://oneplus.net/ca_en/oneplus-3t',
+            imageUrl: 'http://cdn04.androidauthority.net/wp-content/uploads/2016/11/OnePlus-3T-Soft-Gold-hero.png',
+            subtitle: 'just testing!'
+          };
+          const buttons = [
+            {
+              type: 'web_url',
+              url: 'https://oneplus.net/ca_en/oneplus-3t',
+              title: 'Buy dis phone'
+            }
+          ];
+          const opPayload = msg.generic(message, buttons)
+          send(opPayload).to(process.env['SONIA_FB_ID']);
+          send(opPayload).to(process.env['SUSHIL_FB_ID']);
+        } else if (stock === 0 && isFifteenMins()){
+          const dateTime = new Date().toUTCString();
+          const message = `As of ${dateTime}, OP3T SOFT GOLD is still NOT IN STOCK`
+          send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
+        } else {
+          const message = 'Something is wrong with the data. Please check it out.'
+          send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
+        }
+      });
+      timeCount += minute;
+      if(isFifteenMins()) {
+        fifteenMinuteInterval = 0;
       } else {
-        const message = 'Something is wrong with the data. Please check it out.'
-        send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
+        fifteenMinuteInterval += minute;
       }
-    });
-  // send(msg.text('Testing messages per interval')).to(process.env['SUSHIL_FB_ID']);
-  messageSentCount++;
+    // send(msg.text('Testing messages per interval')).to(process.env['SUSHIL_FB_ID']);
+  }, minute);
+}
 
-},30000);
 
 
 // Start server
