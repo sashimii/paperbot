@@ -1045,7 +1045,8 @@ setInterval(function () {
   axios.get(`https://oneplus.net/xman/product/info?param={"store":"ca_en","id":409,"ids":["403"]}`)
     .then((response) => {
       const data = response.data.data;
-      if(data.stock === 1) {
+      const stock = data.stock;
+      if(stock === 1) {
         const message = {
           title: 'OnePlus 3T Soft Gold IN STOCK!',
           itemUrl: 'https://oneplus.net/ca_en/oneplus-3t',
@@ -1062,9 +1063,12 @@ setInterval(function () {
         const opPayload = msg.generic(message, buttons)
         send(opPayload).to(process.env['SONIA_FB_ID']);
         send(opPayload).to(process.env['SUSHIL_FB_ID']);
-      } else {
+      } else if (stock === 0){
         const dateTime = new Date().toUTCString();
         const message = `As of ${dateTime}, OP3T SOFT GOLD is still NOT IN STOCK`
+        send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
+      } else {
+        const message = 'Something is wrong with the data. Please check it out.'
         send(msg.text(message)).to(process.env['SUSHIL_FB_ID']);
       }
     });
