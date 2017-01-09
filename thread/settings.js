@@ -8,6 +8,10 @@ module.exports = class ThreadSettings {
   constructor() {
     if (!self) {
       self = this;
+      this._isInformed = {
+        sonia: false,
+        sushil: true
+      }
     }
     return self;
   }
@@ -61,6 +65,13 @@ module.exports = class ThreadSettings {
     );
   }
 
+  getInformedState(user) {
+    return this._isInformed[user];
+  }
+
+  setInformedState(user, boolState) {
+    this._isInformed[user] = boolState;
+  }
 
   setPersistentMenu(menuItemsArray, callback) {
     console.log('setPersistentMenu has been called');
