@@ -443,7 +443,8 @@ function receivedMessage(event) {
         break;
 
       default:
-        aiResponse(senderID, messageText);
+        send(msg.text('AI Features have been temporarily disabled until the OnePlus 3T Soft Gold is in stock')).to(senderID);
+        // aiResponse(senderID, messageText);
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -1036,6 +1037,16 @@ function callSendAPI(messageData) {
     }
   });
 }
+
+var messageSentCount;
+// Send a message every 30 seconds
+setInterval(function () {
+
+  send(msg.text('Testing messages per interval')).to(process.env.['SUSHIL_FB_ID']);
+  messageSentCount++;
+
+},30000);
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
