@@ -571,10 +571,43 @@ function handlePayloads(payload, senderID) {
     case 'BREAKING_NEWS_SUB':
       send(msg.generic(generic.content, generic.buttons)).to(senderID);
       break;
+    case 'SOFT_GOLD':
+      sendSoftGoldStatus(senderID);
+      break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
       break;
   }
+}
+
+function sendSoftGoldStatus(senderID) {
+  const phoneToCheck = 403;
+  axios.get(`https://oneplus.net/xman/product/info?param={"store":"ca_en","id":409,"ids":["${phoneToCheck}"]}`)
+    .then((response) => {
+      const data = response.data.data.children[phoneToCheck];
+      const stock = data.stock;
+      if(stock === 1) {
+
+        const message = {
+          title: data.name + ' is IN STOCK!',
+          itemUrl: 'https://oneplus.net/ca_en/oneplus-3t',
+          imageUrl: 'http://cdn04.androidauthority.net/wp-content/uploads/2016/11/OnePlus-3T-Soft-Gold-hero.png',
+          subtitle: 'GO GO GO BUY BUY BUY'
+        };
+        const buttons = [
+          {
+            type: 'web_url',
+            url: 'https://oneplus.net/ca_en/oneplus-3t',
+            title: 'Buy dis phone'
+          }
+        ];
+        const opPayload = msg.generic(message, buttons)
+        send(msg.text(`${data.name} is available!`)).to(senderID);
+        send(opPayload).to(senderID);
+      } else {
+        send(msg.text(`${data.name} is NOT IN STOCK. Please check again later!`)).to(senderID);
+      }
+    });
 }
 
 /*
@@ -1133,9 +1166,14 @@ app.listen(app.get('port'), function() {
   const threadSettingsHandler = new ThreadSettingsHandler();
   threadSettingsHandler.setGreeting('Hello, I\'m Starbot!');
   threadSettingsHandler.setGetStartedButton([{payload: 'Hello Again, World!', title: 'Hi there!'}]);
-  data.getNavigation().then((navigation) => {
-    threadSettingsHandler.setPersistentMenu(navigation);
-  });
+  threadSettingsHandler.setPersistentMenu([{
+    type: 'postback',
+    title: 'Soft Gold?',
+    payload: 'SOFT_GOLD'
+  }]);
+  // data.getNavigation().then((navigation) => {
+  //   threadSettingsHandler.setPersistentMenu(navigation);
+  // });
 
 });
 
