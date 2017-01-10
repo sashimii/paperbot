@@ -10,7 +10,6 @@ module.exports = class ThreadSettings {
       self = this;
       this._isInformed = {
         sonia: false,
-        sushil: true
       }
     }
     return self;
