@@ -578,6 +578,11 @@ function handlePayloads(payload, senderID) {
       data.getPuppers().then((result) => {
         const gif = result.data.data['image_url'];
         send(msg.image(gif)).to(senderID);
+      })
+      .catch((error) => {
+        if(error) {
+          send(msg.text('I\'m really sorry, but I can\'t seem to find a pupper gif right now D:')).to(senderID);
+        }
       });
       break;
     default:
