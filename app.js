@@ -576,10 +576,10 @@ function handlePayloads(payload, senderID) {
       break;
     case 'GET_RANDOM_PUPPER':
       data.getPuppers().then((result) => {
-        console.log(result.data);
-        const data = result.data.data;
-        send(msg.image(data['image_url'])).to(senderID);
+        const gif = result.data.data['image_url'];
+        send(msg.image(gif)).to(senderID);
       });
+      break;
     default:
       send(msg.text('Postback: "' + payload + '" received!')).to(senderID);
       break;
