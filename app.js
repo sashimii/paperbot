@@ -576,8 +576,8 @@ function handlePayloads(payload, senderID) {
       break;
     case 'GET_RANDOM_PUPPER':
       data.getPuppers().then((result) => {
-        const gif = result.data.data['image_url'];
-        send(msg.image(gif)).to(senderID);
+        const puppers = msg.image(result.data.data['image_url']);
+        send(puppers).to(senderID);
       })
       .catch((error) => {
         if(error) {

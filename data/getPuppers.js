@@ -4,7 +4,17 @@ module.exports = function getPuppers() {
 
   const getPuppersKeyword = () => {
     const keywords = [
-      'pupper', 'puppers', 'puppies', 'puppy'
+      'pupper',
+      'puppers',
+      'puppies',
+      'puppy',
+      'dog',
+      'doggy',
+      'doggo',
+      'dogs',
+      'doggos',
+      'pooch',
+      'woofers'
     ];
     const totalKeywords = keywords.length;
     return keywords[parseInt(Math.random()*totalKeywords)];
