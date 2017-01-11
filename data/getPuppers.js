@@ -12,9 +12,7 @@ module.exports = function getPuppers() {
       'doggy',
       'doggo',
       'dogs',
-      'doggos',
-      'pooch',
-      'woofers'
+      'doggos'
     ];
     const totalKeywords = keywords.length;
     return keywords[parseInt(Math.random()*totalKeywords)];
